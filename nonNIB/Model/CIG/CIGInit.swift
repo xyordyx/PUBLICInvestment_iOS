@@ -9,39 +9,37 @@ import Foundation
 import Alamofire
 
 protocol  CIGInitDelegate {
-    func didUpdateToken(_ cigManager: CIGInit,_ token: String)
     func didFailWithError(error : Error)
-    func didUpdateOpportunities(_ cigManager: CIGInit, _ ops: [Opportunities])
-    func didUpdateFinancialBalance(_ cigManager: CIGInit, _ finTran: FinancialBalance)
-    func didFinancialBalanceGotUpdate(_ cigManager: CIGInit, _ finTran: FinancialBalance)
-    
+    func didUpdateOpportunities(_ cigManager: CIGInit, _ appData: APPData)
 }
 
 class CIGInit{
     var i = 3
     
-    let loginUrl = "https://api.finsmart.pe/api/v1/authentications"
-    let opportunitiesUrl = "https://api.finsmart.pe/api/v1/opportunities"
+    let opportunitiesResumeUrl = "http://localhost:8080/getresumeopps"
+    //let opportunitiesResumeUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/getresumeopps"
     
     let financialBalanceUrl = "http://localhost:8080/getbalance"
-    //let financialBalanceUrl = "https://hmrestapi-333720.uk.r.appspot.com/getbalance"
+    //let financialBalanceUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/getbalance"
     
     var delegate : CIGInitDelegate?
     
     var headers: HTTPHeaders = [
         "Authorization": "",
+        "ScheduledInvestments":"",
         "Accept": "application/json"
     ]
 
-    func getOpportunities(_ token: String){
-        headers.update(name: "Authorization", value: "Bearer "+token)
-        AF.request(opportunitiesUrl, headers: headers).responseDecodable(of: [Opportunities].self) { response in
+    func getOpportunities(_ token: String,_ scheduledInvestments: Int){
+        headers.update(name: "Authorization", value: token)
+        headers.update(name: "ScheduledInvestments", value: String(scheduledInvestments))
+        AF.request(opportunitiesResumeUrl, headers: headers).responseDecodable(of: APPData.self) { response in
             switch response.result{
             case .success:
-                //FOR TESTING
-                //if let opps = self.parseOpportunitiesTEST(){
-                
                 if let opps = self.parseOpportunitiesJSON(response.data!){
+                    //START FOR TESTING
+                    //opps.opportunities = self.parseOpportunitiesTEST()
+                    //END FOR TESTING
                     self.delegate?.didUpdateOpportunities(self, opps)
                 }
             case .failure(let error):
@@ -50,71 +48,13 @@ class CIGInit{
         }
     }
     
-    func getFinancialBalance(_ token: String){
-        headers.update(name: "Authorization", value: token)
-        AF.request(financialBalanceUrl, headers: headers).responseDecodable(of: FinancialBalance.self) { response in
-            switch response.result{
-            case .success:
-                if let finTran = self.parseFinancialBalanceJSON(response.data!){
-                    self.delegate?.didUpdateFinancialBalance(self, finTran)
-                }
-            case .failure(let error):
-                self.delegate?.didFailWithError(error: error)
-            }
-        }
-    }
-    
-    func updateFinancialBalance(_ token: String){
-        headers.update(name: "Authorization", value: token)
-        AF.request(financialBalanceUrl, headers: headers).responseDecodable(of: FinancialBalance.self) { response in
-            switch response.result{
-            case .success:
-                if let finTran = self.parseFinancialBalanceJSON(response.data!){
-                    self.delegate?.didFinancialBalanceGotUpdate(self, finTran)
-                }
-            case .failure(let error):
-                self.delegate?.didFailWithError(error: error)
-            }
-        }
-    }
-    
-    func getToken(email: String, actualPassword: String){
-        if let url = URL(string: loginUrl){
-            //Create URL session
-            let login = LoginParameters(email: email, actualPassword: actualPassword)
-            AF.request(url,
-                       method: .post,
-                       parameters: login,
-                       encoder: JSONParameterEncoder.default).responseDecodable(of: Login.self) { response in
-                switch response.result{
-                case .success:
-                    if let token = self.parseTokenJSON(response.data!){
-                        self.delegate?.didUpdateToken(self, token)
-                    }
-                case .failure(let error):
-                    self.delegate?.didFailWithError(error: error)
-                }
-            }
-        }
-    }
     
     //MARK: - PARSE SECTION
     
-    func parseTokenJSON(_ finsmartData : Data) -> String?{
+    func parseOpportunitiesJSON(_ finsmartData : Data) -> APPData?{
         let decoder = JSONDecoder()
         do{
-            let decodedData = try decoder.decode(Login.self, from: finsmartData)
-            return decodedData.accessToken
-        }catch{
-            delegate?.didFailWithError(error: error)
-            return nil
-        }
-    }
-    
-    func parseOpportunitiesJSON(_ finsmartData : Data) -> [Opportunities]?{
-        let decoder = JSONDecoder()
-        do{
-            let decodedData = try decoder.decode([Opportunities].self, from: finsmartData)
+            let decodedData = try decoder.decode(APPData.self, from: finsmartData)
             return decodedData
         }catch{
             delegate?.didFailWithError(error: error)
@@ -122,16 +62,17 @@ class CIGInit{
         }
     }
     
-    func parseFinancialBalanceJSON(_ finsmartData : Data) -> FinancialBalance?{
+    func parseFinancialBalanceJSON(_ finsmartData : Data) -> FinancialData?{
         let decoder = JSONDecoder()
         do{
-            let decodedData = try decoder.decode(FinancialBalance.self, from: finsmartData)
+            let decodedData = try decoder.decode(FinancialData.self, from: finsmartData)
             return decodedData
         }catch{
             delegate?.didFailWithError(error: error)
             return nil
         }
     }
+    
     
     //MARK: - TESTING SECTION
     func parseOpportunitiesTEST() -> [Opportunities]?{
@@ -149,7 +90,7 @@ class CIGInit{
                 let decodedData = try decoder.decode([Opportunities].self, from: data)
                 return decodedData
             }catch let error {
-                print("parse error: \(error.localizedDescription)")
+                print("parse error: \(String(describing: error))")
             }
            
         } else {

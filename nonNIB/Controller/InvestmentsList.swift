@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InvestmentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class InvestmentsList: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -26,10 +26,14 @@ class InvestmentViewController: UIViewController, UITableViewDataSource, UITable
         
         searchBar.delegate = self
         searchBar.scopeButtonTitles = ["All", "Delayed","Close to Pay"]
-        cig.getCurrentInvestments(DataModel.shared.token!)
+        cig.getCurrentInvestments(DataModel.shared.smartToken!)
         
         activityIndicator.startAnimating()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,10 +65,10 @@ class InvestmentViewController: UIViewController, UITableViewDataSource, UITable
         return cell
     }
     
-
+    
 }
 
-extension InvestmentViewController: UISearchBarDelegate, CIGInvestmentsDelegate{
+extension InvestmentsList: UISearchBarDelegate, CIGInvestmentsDelegate{
     func didFailWithError(error: Error) {
         print(error)
     }
@@ -78,6 +82,15 @@ extension InvestmentViewController: UISearchBarDelegate, CIGInvestmentsDelegate{
         
         self.displayInvoices = self.debtorInvoices
         activityIndicator.stopAnimating()
+        investmentTableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if(searchText.isEmpty){
+            self.displayInvoices = self.debtorInvoices
+        }else{
+            self.displayInvoices = util.getDebtorInvoices(self.debtorInvoices!, searchBar.text!)
+        }
         investmentTableView.reloadData()
     }
     
@@ -100,6 +113,6 @@ extension InvestmentViewController: UISearchBarDelegate, CIGInvestmentsDelegate{
             investmentTableView.reloadData()
         }
     }
-
-
+    
+    
 }

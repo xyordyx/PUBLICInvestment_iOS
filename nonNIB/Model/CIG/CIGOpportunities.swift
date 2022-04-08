@@ -9,38 +9,43 @@ import Foundation
 import Alamofire
 
 protocol CIGOppDelegate{
-    func didGotResponse(_ cigManager: CIGOpportunities,_ codeResponse: Int)
+    func didGotResponse(_ cigManager: CIGOpportunities,_ statusResponse: Bool)
     func didFailWithError(error : Error)
 }
 
 class CIGOpportunities{
     
-    let scheduleInvestmentUrl = "http://localhost:8080/scheduleinvestment"
-    //let scheduleInvestmentUrl = "https://hmrestapi-333720.uk.r.appspot.com/scheduleinvestment"
+    let createInvestmentUrl = "http://localhost:8080/createinvestment"
+    //let createInvestmentUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/createinvestment"
     
     var delegate : CIGOppDelegate?
     
-    func scheduleInvestment(_ amount: Double,_ currency: String,_ invoiceId: String,_ time: Int,_ debtorName: String,_ token: String){
-        let parameters = InvestmentJSON(amount, currency, invoiceId, time, debtorName, token)
-        AF.request(scheduleInvestmentUrl,method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response
-        { (response) in switch response.result {
-        case .success(_):
-            if let codeResponse = response.response?.statusCode{
-                self.delegate?.didGotResponse(self, codeResponse)
-            }
+    let util = Util()
+    
+    func createInvestment(_ amount: Double,_ currency: String,_ invoiceId: String,_ time: String,_ debtorName: String,
+                          _ smartToken: String,_ saltPass: String){
+        let parameters = InvestmentJSON(amount, currency, invoiceId, time, debtorName, smartToken,saltPass)
+        
+        AF.request(createInvestmentUrl,method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).validate(statusCode: 200..<299).response
+        {
+            (response) in switch response.result
+            {
+            case .success(_):
+                if let data = self.parseInvestmentResponse(response.data!){
+                    self.delegate?.didGotResponse(self, data)
+                }
             case .failure(let error):
                 self.delegate?.didFailWithError(error: error)
             }
         }
     }
     
-    
     //MARK: - PARSERS
     
-    func parseInvestmentResponse(_ finsmartData : Data) -> InvestmentResponse?{
+    func parseInvestmentResponse(_ finsmartData : Data) -> Bool?{
         let decoder = JSONDecoder()
         do{
-            let decodedData = try decoder.decode(InvestmentResponse.self, from: finsmartData)
+            let decodedData = try decoder.decode(Bool.self, from: finsmartData)
             return decodedData
         }catch{
             delegate?.didFailWithError(error: error)

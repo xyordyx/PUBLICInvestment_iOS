@@ -9,6 +9,10 @@ import UIKit
 
 class OppViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var investButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var actualPENLabel: UILabel!
+    @IBOutlet weak var actualUSDLabel: UILabel!
     @IBOutlet weak var confirmingLabel: UILabel!
     @IBOutlet weak var confirmingView: UIView!
     @IBOutlet weak var amountTextField: UITextField!
@@ -27,6 +31,7 @@ class OppViewController: UIViewController, UITextFieldDelegate {
     
     var cig = CIGOpportunities()
     var opportunitie: Opportunities?
+    let defaults = UserDefaults.standard
     
     var penAvailableAmount = 0.00
     var usdAvailableAmount = 0.00
@@ -59,14 +64,20 @@ class OppViewController: UIViewController, UITextFieldDelegate {
             daysLabel.text = String(days)
         }
         dateLabel.text = util.dateFormatter((opportunitie?.paymentDate!)!)
-        temLabel.text = util.doubleFormatter(Double((opportunitie?.tem!)!)!, 2)
-        teaLabel.text = util.doubleFormatter(Double((opportunitie?.tea!)!)!, 2)
+        temLabel.text = util.doubleFormatter((opportunitie?.tem!)!, 2)
+        teaLabel.text = util.doubleFormatter((opportunitie?.tea!)!, 2)
         rateLabel.text = opportunitie?.evaluation?.rating!
-        amountLabel.text = util.doubleFormatter(Double((opportunitie?.advanceAmount!)!)!,2)!+" "+(opportunitie?.currency!)!
+        amountLabel.text = util.doubleFormatter((opportunitie?.advanceAmount!)!,2)!+" "+(opportunitie?.currency!)!
+        actualPENLabel.isHidden = true
+        actualUSDLabel.isHidden = true
+        self.util.refreshBalance(penAvailable,actualPENLabel,usdAvailable, actualUSDLabel)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,13 +86,16 @@ class OppViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func investButton(_ sender: UIButton) {
         if let amount = Double(amountTextField.text!) {
-            cig.scheduleInvestment(amount, (opportunitie?.currency!)!, (opportunitie?._id)!,
-                                   timeControl.selectedSegmentIndex, (opportunitie?.debtor?.companyName)!, DataModel.shared.token!)
-            let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
-            let blurEffectView = UIVisualEffectView(effect: blurEffect)
-            blurEffectView.frame = detailView.bounds
-            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            detailView.addSubview(blurEffectView)
+            activityIndicator.startAnimating()
+            activityIndicator.isHidden = false
+            amountTextField.isUserInteractionEnabled = false
+            amountTextField.backgroundColor = .systemGray4
+            investButton.isUserInteractionEnabled = false
+            investButton.alpha = 0.2
+            if let dataPList = defaults.dictionary(forKey: "userData") as? [String : String]{
+                cig.createInvestment(amount, (opportunitie?.currency!)!, (opportunitie?._id)!,
+                                     util.setTimeForInvest(timeControl.selectedSegmentIndex), (opportunitie?.debtor?.companyName)!, DataModel.shared.smartToken!,dataPList["salt"]!)
+            }
         }
     }
     
@@ -97,34 +111,21 @@ class OppViewController: UIViewController, UITextFieldDelegate {
 }
 
 extension OppViewController: CIGOppDelegate{
-    func didGotResponse(_ cigManager: CIGOpportunities, _ response: Int) {
+    func didGotResponse(_ cigManager: CIGOpportunities, _ response: Bool) {
         //Schedule successfully
-        if(response == 200){
-            opportunitie?.amountToInvest = Double(amountTextField.text!)!
-            opportunitie?.timeToInvest = timeControl.selectedSegmentIndex
-            opportunitie?.isScheduled = true
-            DataModel.shared.opportunities[(opportunitie?._id)!] = opportunitie
+        if(response){
+            activityIndicator.isHidden = true
+            activityIndicator.stopAnimating()
             _ = navigationController?.popToRootViewController(animated: true)
         }
-        //Investment Duplicated
-        else if(response == 406){
-            let alert = UIAlertController(title: "Duplicated", message: "Investment is already scheduled", preferredStyle: UIAlertController.Style.alert)
+        //Investment Duplicated or Error
+        else if(!response){
+            let alert = UIAlertController(title: "Error", message: "Investment is already scheduled or there was an error", preferredStyle: UIAlertController.Style.alert)
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: { action in
-                self.opportunitie?.isScheduled = true
-                DataModel.shared.opportunities[(self.opportunitie?._id)!] = self.opportunitie
                 _ = self.navigationController?.popToRootViewController(animated: true)
             }))
-            self.present(alert, animated: true, completion: nil)
-        }
-        //Error wrong request
-        else{
-            for subview in detailView.subviews {
-                if subview is UIVisualEffectView {
-                    subview.removeFromSuperview()
-                }
-            }
-            let alert = UIAlertController(title: "Error", message: "Wrong request", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -132,6 +133,8 @@ extension OppViewController: CIGOppDelegate{
     func didFailWithError(error: Error) {
         print(error)
         let alert = UIAlertController(title: "Error", message: "Network connection refused", preferredStyle: UIAlertController.Style.alert)
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { action in
             _ = self.navigationController?.popToRootViewController(animated: true)
         }))

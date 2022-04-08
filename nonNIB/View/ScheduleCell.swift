@@ -9,10 +9,9 @@ import UIKit
 
 class ScheduleCell: UITableViewCell {
 
-    @IBOutlet weak var originalAmountLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var handImage: UIImageView!
+    @IBOutlet weak var dataBaseImage: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var supplierLabel: UILabel!
     @IBOutlet weak var scheduleViewCell: UIView!

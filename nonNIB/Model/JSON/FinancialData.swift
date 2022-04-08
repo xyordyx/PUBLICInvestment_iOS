@@ -1,13 +1,19 @@
 //
-//  FinancialBalance.swift
+//  FinancialData.swift
 //  Finsmart
 //
-//  Created by Martinez Giancarlo on 25/11/21.
+//  Created by Martinez Giancarlo on 14/03/22.
 //
 
 import Foundation
 
-struct FinancialBalance: Codable{
+struct FinancialData: Codable{
+    var totalPENAvailable: Double
+    var totalUSDAvailable: Double
+    
+    var totalPENScheduled: Double
+    var totalUSDScheduled: Double
+    
     var totalPENDeposited: Double
     var totalUSDDeposited: Double
     
@@ -17,11 +23,8 @@ struct FinancialBalance: Codable{
     var totalPENProfited: Double
     var totalUSDProfited: Double
     
-    var totalPENAvailable: Double
-    var totalUSDAvailable: Double
-    
-    var totalPENInProgress: Double
-    var totalUSDInProgress: Double
+    var totalPENCurrentInvested: Double
+    var totalUSDCurrentInvested: Double
     
     var solesOnRisk: Double
     var dollarOnRisk: Double
@@ -29,6 +32,6 @@ struct FinancialBalance: Codable{
     var solesProfitExpected: Double
     var dollarProfitExpected: Double
     
-    var invoicesIndex: Int
-    var financialIndex: Int
+    var scheduledInvestmentsNum: Int
+    
 }

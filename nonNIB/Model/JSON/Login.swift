@@ -10,3 +10,7 @@ import Foundation
 struct Login: Codable{
     let accessToken: String
 }
+
+struct FireLogin: Codable{
+    let idToken: String
+}

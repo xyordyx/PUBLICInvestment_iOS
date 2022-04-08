@@ -13,13 +13,14 @@ class Opportunities: Encodable, Decodable{
     var debtor: Debtor?
     var evaluation: Evaluation?
     var isConfirming: Bool?
-    var advanceAmount: String?
+    var advanceAmount: Double?
     var toBeCollectedIn: Int?
     var paymentDate: String?
-    var tem: String?
-    var tea: String?
+    var tem: Double?
+    var tea: Double?
     var onSale: Bool?
-    var availableBalanceAmount: String?
+    var availableBalanceAmount: Double?
+    var createdAt: String?
     
     var isScheduled: Bool?
     var time: Int?
@@ -29,6 +30,4 @@ class Opportunities: Encodable, Decodable{
     var completed: Bool?
     var amountToInvest: Double?
     var timeToInvest: Int?
-    
-    
 }

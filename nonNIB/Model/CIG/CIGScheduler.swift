@@ -9,17 +9,18 @@ import Foundation
 import Alamofire
 
 protocol CIGSchedulerDelegate{
-    func didCurrentSchedule(_ cigManager: CIGScheduler,_ data: [InvestmentJSON])
-    func didScheduleGotCancelled(_ cigManager: CIGScheduler,_ data: [InvestmentJSON],_ response: Int)
+    func didInvesmentByComplete(_ cigManager: CIGScheduler,_ data: [InvestmentJSON],_ isComplete: Bool)
+    func didScheduleGotCancelled(_ cigManager: CIGScheduler,_ data: [InvestmentJSON],_ isCompleted: Bool)
     func didFailWithError(error : Error)
 }
 
 class CIGScheduler{
     
-    let currentScheduleUrl = "http://localhost:8080/currentschedule"
     let stopInvestmentUrl = "http://localhost:8080/stopinvestment?filter="
-    //let currentScheduleUrl = "https://hmrestapi-333720.uk.r.appspot.com/currentschedule"
-    //let stopInvestmentUrl = "https://hmrestapi-333720.uk.r.appspot.com/stopinvestment?filter="
+    //let stopInvestmentUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/stopinvestment?filter="
+
+    let getByCompletedUrl = "http://localhost:8080/getbycompleted?filter="
+    //let getByCompletedUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/getbycompleted?filter="
     
     var delegate : CIGSchedulerDelegate?
     
@@ -27,14 +28,14 @@ class CIGScheduler{
         "Authorization": "",
         "Accept": "application/json"
     ]
-    
-    func getCurrentSchedule(_ token: String){
-        headers.update(name: "Authorization", value: token)
-        AF.request(currentScheduleUrl, headers: headers).responseDecodable(of: [InvestmentJSON].self) { response in
+
+    func getInvesmentsByCompleted(_ isCompleted: Bool){
+        //headers.update(name: "firestoretoken", value: fireToken)
+        AF.request(getByCompletedUrl+String(isCompleted), headers: headers).responseDecodable(of: [InvestmentJSON].self) { response in
             switch response.result{
             case .success:
                 if let currentSchule = self.parseCurrentSchedule(response.data!){
-                    self.delegate?.didCurrentSchedule(self, currentSchule)
+                    self.delegate?.didInvesmentByComplete(self, currentSchule,isCompleted)
                 }
             case .failure(let error):
                 self.delegate?.didFailWithError(error: error)
@@ -42,15 +43,23 @@ class CIGScheduler{
         }
     }
     
-    func cancelScheduleInvestment(_ invoiceId: String){
-        AF.request(stopInvestmentUrl+invoiceId, headers: headers).responseDecodable(of: [InvestmentJSON].self) { response in
-            switch response.result{
-            case .success:
-                if let currentSchule = self.parseCurrentSchedule(response.data!){
-                    self.delegate?.didScheduleGotCancelled(self, currentSchule, response.response!.statusCode)
+    func cancelScheduleInvestment(_ invoiceId: String,_ isCompleted: Bool){
+        //headers.update(name: "firestoretoken", value: fireToken)
+        if let url = URL(string: stopInvestmentUrl+invoiceId+"&caller="+String(isCompleted)){
+            //Create URL session
+            let login: String = ""
+            AF.request(url,
+                       method: .delete,
+                       parameters: login,
+                       encoder: JSONParameterEncoder.default,headers: headers).responseDecodable(of: [InvestmentJSON].self) { response in
+                switch response.result{
+                case .success:
+                    if let currentSchule = self.parseCurrentSchedule(response.data!){
+                        self.delegate?.didScheduleGotCancelled(self, currentSchule,isCompleted)
+                    }
+                case .failure(let error):
+                    self.delegate?.didFailWithError(error: error)
                 }
-            case .failure(let error):
-                self.delegate?.didFailWithError(error: error)
             }
         }
     }

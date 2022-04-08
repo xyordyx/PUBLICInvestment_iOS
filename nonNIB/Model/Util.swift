@@ -83,44 +83,23 @@ struct Util{
         }
         return invoiceDict
     }
-    
-    func isScheduled(_ opps: [String : Opportunities], _ scheduled: [InvestmentJSON]) -> ScheduleData{
-        var temp = ScheduleData()
-        temp.opportunities = opps
-        var amountPENInvested = 0.00
-        var amountUSDInvested = 0.00
-        for sche in scheduled{
-            if(opps[sche.invoiceId] != nil){
-                temp.opportunities[sche.invoiceId]?.isScheduled = true
-                if(sche.currency == "pen"){
-                    amountPENInvested = amountPENInvested + sche.amount
-                }else{
-                    amountUSDInvested = amountUSDInvested + sche.amount
-                }
-            }else{
-                temp.opportunities[sche.invoiceId]?.isScheduled = false
-            }
-        }
-        temp.amountPENScheduled = amountPENInvested
-        temp.amountUSDScheduled = amountUSDInvested
-        return temp
-    }
 
     func getColorRate(_ rate: String?) -> UIColor{
-        if rate!.contains("A"){
-            //#colorLiteral()
-            return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        }else if rate!.contains("B"){
-            return UIColor.systemYellow
-        }else{
-            return #colorLiteral(red: 1, green: 0.2949872613, blue: 0.3388307095, alpha: 1)
+        if let temp = rate{
+            if temp.contains("A"){
+                //#colorLiteral()
+                return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            }else if temp.contains("B"){
+                return UIColor.systemYellow
+            }
         }
+        return #colorLiteral(red: 1, green: 0.2949872613, blue: 0.3388307095, alpha: 1)
     }
     
     func getStatsArray() -> [[Any]]{
         var stats = [[]]
         
-        let inProgress = ["Invested in Progress",DataModel.shared.financialStats.totalPENInProgress!,DataModel.shared.financialStats.totalUSDInProgress!, #colorLiteral(red: 0.3173507452, green: 0.4767736197, blue: 0.8152994514, alpha: 1)] as [Any]
+        let inProgress = ["Invested in Progress",DataModel.shared.financialStats.totalPENCurrentInvested!,DataModel.shared.financialStats.totalUSDCurrentInvested!, #colorLiteral(red: 0.3173507452, green: 0.4767736197, blue: 0.8152994514, alpha: 1)] as [Any]
         let profited = ["Total Profited",DataModel.shared.financialStats.totalPENProfited!,
                         DataModel.shared.financialStats.totalUSDProfited!, #colorLiteral(red: 0, green: 0.6249273419, blue: 0.2360118032, alpha: 1)] as [Any]
         let available = ["Available to Invest",DataModel.shared.financialStats.totalPENAvailable!,
@@ -152,6 +131,16 @@ struct Util{
         return delayedInvoices.sorted(by: { ($0.moraDays!) < ($1.moraDays!)})
     }
     
+    func getRemovedInvestments(_ data: [InvestmentJSON]) -> [InvestmentJSON]{
+        var currentInvoices = [InvestmentJSON]()
+        for inv in data{
+            if(inv.currentState != "Removed"){
+                currentInvoices.append(inv)
+            }
+        }
+        return currentInvoices
+    }
+    
     func getCloseToPayInvoices(_ invoices : [DebtorInvoices?]) -> [DebtorInvoices]{
         var closeToPay = [DebtorInvoices]()
         for inv in invoices{
@@ -176,6 +165,70 @@ struct Util{
         }
         return query.sorted(by: { ($0.moraDays!) < ($1.moraDays!)})
     }
+    
+    func setTimeForInvest(_ timeIndex: Int) -> String{
+        var scheduleTime: String = ""
+        if(timeIndex == 0){
+            scheduleTime = "12:30"
+        }else if(timeIndex == 1){
+            scheduleTime = "17:30"
+        }else if(timeIndex == 2){
+            scheduleTime = "0:00"
+        }
+        return scheduleTime
+    }
+    
+    func updateFinancialValues(_ APIData: FinancialData){
+        DataModel.shared.financialStats.totalPENDeposited = APIData.totalPENDeposited
+        DataModel.shared.financialStats.totalUSDDeposited = APIData.totalUSDDeposited
+        DataModel.shared.financialStats.totalPENAvailable = APIData.totalPENAvailable
+        DataModel.shared.financialStats.totalUSDAvailable = APIData.totalUSDAvailable
+        DataModel.shared.financialStats.totalPENProfited = APIData.totalPENProfited
+        DataModel.shared.financialStats.totalUSDProfited = APIData.totalUSDProfited
+        DataModel.shared.financialStats.totalPENCurrentInvested = APIData.totalPENCurrentInvested
+        DataModel.shared.financialStats.totalUSDCurrentInvested = APIData.totalUSDCurrentInvested
+        DataModel.shared.financialStats.totalPENScheduled = APIData.totalPENScheduled
+        DataModel.shared.financialStats.totalUSDScheduled = APIData.totalUSDScheduled
+        DataModel.shared.scheduledInvestmentsNum = APIData.scheduledInvestmentsNum
+    }
 
+    func refreshBalance(_ penAvailable: UILabel, _ actualPENLabel: UILabel, _ usdAvailable: UILabel, _ actualUSDLabel: UILabel){
+        if(DataModel.shared.scheduledInvestmentsNum != 0){
+            if(DataModel.shared.financialStats.totalPENScheduled! > 0){
+                let penRemaining = DataModel.shared.financialStats.totalPENAvailable! - DataModel.shared.financialStats.totalPENScheduled!
+                penAvailable.text = "S/ "+doubleFormatter((penRemaining),0)!
+                actualPENLabel.text = "Actual S/ "+doubleFormatter(DataModel.shared.financialStats.totalPENAvailable!,0)!
+                actualPENLabel.isHidden = false
+                penAvailable.isHidden = false
+            } else{
+                penAvailable.text = "S/ "+doubleFormatter(DataModel.shared.financialStats.totalPENAvailable!,0)!
+                penAvailable.isHidden = false
+                actualPENLabel.isHidden = true
+            }
+            if(DataModel.shared.financialStats.totalUSDScheduled! > 0){
+                let usdReamining = DataModel.shared.financialStats.totalUSDAvailable! - DataModel.shared.financialStats.totalUSDScheduled!
+                usdAvailable.text = "$ "+doubleFormatter((usdReamining),0)!
+                actualUSDLabel.text = "Actual $ "+doubleFormatter(DataModel.shared.financialStats.totalUSDAvailable!,0)!
+                actualUSDLabel.isHidden = false
+                usdAvailable.isHidden = false
+            } else{
+                usdAvailable.text = "S/ "+doubleFormatter(DataModel.shared.financialStats.totalUSDAvailable!,0)!
+                usdAvailable.isHidden = false
+                actualUSDLabel.isHidden = true
+            }
+        } else{
+            penAvailable.text = "S/ "+doubleFormatter(DataModel.shared.financialStats.totalPENAvailable!,0)!
+            usdAvailable.text = "$ "+doubleFormatter(DataModel.shared.financialStats.totalUSDAvailable!,0)!
+            penAvailable.isHidden = false
+            usdAvailable.isHidden = false
+            actualUSDLabel.isHidden = true
+            actualPENLabel.isHidden = true
+        }
+    }
+    
+    func randomString(_ length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in letters.randomElement()! })
+    }
 }
 

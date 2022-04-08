@@ -12,33 +12,44 @@ struct LoginParameters: Encodable {
     let actualPassword: String
 }
 
+struct LoginParametersFire: Encodable {
+    let email: String
+    let password: String
+    let returnSecureToken: Bool
+}
+
 class InvestmentJSON: Encodable, Decodable{
     let amount: Double
     let currency: String
     let invoiceId: String
-    let time: Int
+    let time: String
     let debtorName: String
-    let token: String
+    let smartToken: String?
+    let saltPass: String
     
     let autoAdjusted: Bool
     let adjustedAmount: Double
     let status: Bool?
     let message: String?
     let completed: Bool
+    let currentState: String
     
-    init(_ amount: Double,_ currency: String,_ invoiceId: String,_ time: Int,_ debtorName: String,_ token: String){
+    init(_ amount: Double,_ currency: String,_ invoiceId: String,_ time: String,_ debtorName: String,_ smartToken: String
+         ,_ saltPass: String){
         self.amount = amount
         self.currency = currency
         self.invoiceId = invoiceId
         self.time = time
         self.debtorName = debtorName
-        self.token = token
+        self.smartToken = smartToken
+        self.saltPass = saltPass
         
         self.autoAdjusted = false
         self.adjustedAmount = 0.00
         self.status = false
         self.message = ""
         self.completed = false
+        self.currentState = ""
     }
 }
 
@@ -49,6 +60,11 @@ struct ScheduleResponse: Codable{
 struct InvestmentResponse: Codable{
     let response: String
     let isScheduled: String
+}
+
+struct ResponseJSON: Codable{
+    let status: Bool
+    let message: String
 }
 
 

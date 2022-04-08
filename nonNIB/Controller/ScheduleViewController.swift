@@ -11,17 +11,20 @@ class ScheduleViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var activityView: UIView!
     @IBOutlet weak var scheduleTableView: UITableView!
+    @IBOutlet weak var investedRecentlyTableView: UITableView!
+    
+    @IBOutlet weak var activityRecentIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityRecentlyView: UIView!
     let amountBigger = "INVESTMENTS.INVESTMENT_AMOUNT_IS_BIGGER_THAN_TARGET_INVOICE_AVAILABLE_BALANCE"
     let amountZero = "AMOUNT AVAILABLE IS 0.00"
     let investmentClosed = "INVESTMENTS.TARGET_INVOICE_STATUS_DOESNT_ALLOW_NEW_INVESTMENTS"
 
     let util = Util()
     let cig = CIGScheduler()
-    var scheduledInvoices = [String : InvestmentJSON]()
+    var scheduledInvoices: [InvestmentJSON]?
+    var completedInvoices: [InvestmentJSON]?
   
     var tempInvoiceId : String = ""
-    
-    var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,27 +32,39 @@ class ScheduleViewController: UIViewController, UITableViewDataSource, UITableVi
         scheduleTableView.dataSource = self
         scheduleTableView.delegate = self
         scheduleTableView.register(UINib(nibName: "ScheduleCell", bundle: nil), forCellReuseIdentifier: "ScheduleReusableCell")
-        
-        scheduleTableView.separatorStyle = .none
         scheduleTableView.showsVerticalScrollIndicator = false
         
-        refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
-        self.refreshControl.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        
-        self.activityIndicator.center = CGPoint(x:UIScreen.main.bounds.size.width / 2, y:UIScreen.main.bounds.size.height / 2)
+        investedRecentlyTableView.dataSource = self
+        investedRecentlyTableView.delegate = self
+        investedRecentlyTableView.register(UINib(nibName: "InvestCompletedCell", bundle: nil), forCellReuseIdentifier: "InvestCompletedReusableCell")
+        investedRecentlyTableView.showsVerticalScrollIndicator = false
+
+        self.activityIndicator.center = CGPoint(x:UIScreen.main.bounds.size.width / 2, y:250)
         self.view.addSubview(activityIndicator)
         
-        scheduleTableView.addSubview(refreshControl)
-
+        scheduleTableView.layer.masksToBounds = true
+        scheduleTableView.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        scheduleTableView.layer.borderWidth = 1.0
+        scheduleTableView.layer.cornerRadius = scheduleTableView.frame.height / 20
+        
+        self.activityRecentIndicator.center = CGPoint(x:UIScreen.main.bounds.size.width / 2, y:595)
+        self.view.addSubview(activityRecentIndicator)
+        
+        investedRecentlyTableView.layer.masksToBounds = true
+        investedRecentlyTableView.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        investedRecentlyTableView.layer.borderWidth = 1.0
+        investedRecentlyTableView.layer.cornerRadius = investedRecentlyTableView.frame.height / 20
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        cig.getCurrentSchedule(DataModel.shared.token!)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        cig.getInvesmentsByCompleted(true)
+        cig.getInvesmentsByCompleted(false)
         activityIndicator.startAnimating()
         scheduleTableView.backgroundView = nil
         scheduleTableView.reloadData()
+        investedRecentlyTableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,125 +72,190 @@ class ScheduleViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(scheduledInvoices.count == 0){
-            return 0
-        }else {
-            return scheduledInvoices.count
+        if tableView == scheduleTableView{
+            if(scheduledInvoices == nil || scheduledInvoices?.count == 0){
+                return 0
+            }else{
+                return scheduledInvoices!.count
+            }
+        }else if tableView == investedRecentlyTableView{
+            if(completedInvoices == nil || completedInvoices?.count == 0){
+                return 0
+            }else{
+                return completedInvoices!.count
+            }
         }
-        
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleReusableCell", for: indexPath) as! ScheduleCell
-        cell.supplierLabel?.numberOfLines = 0
-        cell.scheduleViewCell.layer.cornerRadius = cell.scheduleViewCell.frame.height / 9
-        cell.amountLabel?.adjustsFontSizeToFitWidth = true
-        cell.amountLabel?.minimumScaleFactor = 0.5
-                
-        cell.messageLabel.isHidden = true
-        
-        if(Array(scheduledInvoices)[indexPath.row].value.completed){
-            //Invested
-            if(Array(scheduledInvoices)[indexPath.row].value.status!){
-                if(Array(scheduledInvoices)[indexPath.row].value.autoAdjusted){
-                    cell.originalAmountLabel.isHidden = false
-                    cell.originalAmountLabel.text = "Inital: "+util.doubleFormatter(Array(scheduledInvoices)[indexPath.row].value.amount,0)!
-                    cell.amountLabel.text = util.doubleFormatter(Array(scheduledInvoices)[indexPath.row].value.adjustedAmount,0)! + Array(scheduledInvoices)[indexPath.row].value.currency
-                }else{
-                    cell.originalAmountLabel.isHidden = true
-                    cell.amountLabel.text = util.doubleFormatter(Array(scheduledInvoices)[indexPath.row].value.amount,0)! + Array(scheduledInvoices)[indexPath.row].value.currency
-                }
-                cell.statusLabel.text = "Invested!"
+        if tableView == scheduleTableView{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleReusableCell", for: indexPath) as! ScheduleCell
+            cell.handImage.isHidden = true
+            cell.amountLabel?.adjustsFontSizeToFitWidth = true
+            cell.amountLabel?.minimumScaleFactor = 0.5
+            cell.supplierLabel.text = scheduledInvoices![indexPath.row].debtorName
+            //Still SCHEDULED
+            if(scheduledInvoices![indexPath.row].currentState == "Manual_DB"){
+                cell.handImage.isHidden = false
             }
-            //Error at investment
+            if scheduledInvoices![indexPath.row].currency == "pen"{
+                cell.amountLabel.text = "S/. " + util.doubleFormatter(scheduledInvoices![indexPath.row].amount,0)!
+            }else{
+                cell.amountLabel.text = "$ " + util.doubleFormatter(scheduledInvoices![indexPath.row].amount,0)!
+            }
+            
+            cell.timeLabel.text = scheduledInvoices![indexPath.row].time
+            return cell
+        }else if tableView == investedRecentlyTableView{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InvestCompletedReusableCell", for: indexPath) as! InvestCompletedCell
+            cell.amountLabel?.adjustsFontSizeToFitWidth = true
+            cell.amountLabel?.minimumScaleFactor = 0.5
+            cell.debtoLabel.text = completedInvoices![indexPath.row].debtorName
+            //SUCCESS
+            if(completedInvoices![indexPath.row].status!){
+                //AUTO ADJUSTED
+                if(completedInvoices![indexPath.row].autoAdjusted){
+                    cell.messageLabel.isHidden = false
+                    cell.imageIcon.isHidden = true
+                    cell.equalIcon.isHidden = false
+                    cell.wrongIcon.isHidden = true
+                    
+                    cell.messageLabel.isHidden = false
+                    if completedInvoices![indexPath.row].currency == "pen"{
+                        cell.amountLabel.text = "S/. " + util.doubleFormatter(completedInvoices![indexPath.row].adjustedAmount,2)!
+                        cell.messageLabel.text = "Initial Amount: S/. "+util.doubleFormatter(completedInvoices![indexPath.row].amount,0)!
+                    }else{
+                        cell.amountLabel.text = "$ " + util.doubleFormatter(completedInvoices![indexPath.row].adjustedAmount,2)!
+                        cell.messageLabel.text = "Initial Amount: $ "+util.doubleFormatter(completedInvoices![indexPath.row].amount,0)!
+                    }
+                }
+                //EXPECTED
+                else{
+                    cell.messageLabel.isHidden = true
+                    cell.imageIcon.isHidden = false
+                    cell.equalIcon.isHidden = true
+                    cell.wrongIcon.isHidden = true
+                    
+                    if completedInvoices![indexPath.row].currency == "pen"{
+                        cell.amountLabel.text = "S/. " + util.doubleFormatter(completedInvoices![indexPath.row].amount,0)!
+                    }else{
+                        cell.amountLabel.text = "$ " + util.doubleFormatter(completedInvoices![indexPath.row].amount,0)!
+                    }
+                }
+            }
             else{
-                if(Array(scheduledInvoices)[indexPath.row].value.message == amountBigger){
-                    cell.messageLabel.text = "Amount is bigger"
-                }else if(Array(scheduledInvoices)[indexPath.row].value.message == amountZero){
-                    cell.messageLabel.text = "Amount available is 0.0"
-                }else if(Array(scheduledInvoices)[indexPath.row].value.message == investmentClosed){
-                    cell.messageLabel.text = "Invoice doesn't allow investments"
-                }else{
-                    cell.messageLabel.text = Array(scheduledInvoices)[indexPath.row].value.message
-                }
-                cell.statusLabel.text = "Failed"
+                //ERROR
+                cell.wrongIcon.isHidden = false
+                cell.imageIcon.isHidden = true
+                cell.equalIcon.isHidden = true
+                
                 cell.messageLabel.isHidden = false
-                cell.originalAmountLabel.isHidden = true
-                cell.amountLabel.isHidden = true
+                cell.messageLabel.text = completedInvoices![indexPath.row].message
+
+                if completedInvoices![indexPath.row].currency == "pen"{
+                    let attributeString =  NSMutableAttributedString(string: "S/. " + util.doubleFormatter(completedInvoices![indexPath.row].amount,0)!)
+                    attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle,
+                                                 value: NSUnderlineStyle.single.rawValue,
+                                                 range: NSMakeRange(0, attributeString.length))
+                    cell.amountLabel.attributedText = attributeString
+                }else{
+                    let attributeString =  NSMutableAttributedString(string: "$ " + util.doubleFormatter(completedInvoices![indexPath.row].amount,0)!)
+                    attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle,
+                                                 value: NSUnderlineStyle.single.rawValue,
+                                                 range: NSMakeRange(0, attributeString.length))
+                    cell.amountLabel.attributedText = attributeString
+                }
+                
             }
-        }else{
-            cell.statusLabel.text = "Scheduled"
-            cell.amountLabel.text = util.doubleFormatter(Array(scheduledInvoices)[indexPath.row].value.amount,0)! + Array(scheduledInvoices)[indexPath.row].value.currency
-            cell.originalAmountLabel.isHidden = true
+            return cell
         }
-        cell.supplierLabel.text = Array(scheduledInvoices)[indexPath.row].value.debtorName
-        if(Array(scheduledInvoices)[indexPath.row].value.time == 0){
-            cell.timeLabel.text = "12:30"
-        }else{
-            cell.timeLabel.text = "5:30"
-        }
-        return cell
+        return UITableViewCell()
     }
-    
-    private func handleMoveToTrash(_ invoiceId: String) {
+
+
+    private func handleMoveToTrash(_ invoiceId: String,_ isComplete: Bool) {
         tempInvoiceId = invoiceId
-        cig.cancelScheduleInvestment(tempInvoiceId)
+        cig.cancelScheduleInvestment(tempInvoiceId, isComplete)
     }
 
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        // Trash action
-        let trash = UIContextualAction(style: .destructive,
-                                       title: "Cancel") { [weak self] (action, view, completionHandler) in
-            self?.handleMoveToTrash(Array(self!.scheduledInvoices)[indexPath.row].key)
-            completionHandler(true)
+        if tableView == scheduleTableView{        // Trash action
+            let trash = UIContextualAction(style: .destructive,
+                                           title: "Cancel") { [weak self] (action, view, completionHandler) in
+                self?.handleMoveToTrash(self!.scheduledInvoices![indexPath.row].invoiceId, false)
+                completionHandler(true)
+            }
+            trash.backgroundColor = .systemRed
+            return UISwipeActionsConfiguration(actions: [trash])
+        }else if tableView == investedRecentlyTableView{
+            let trash = UIContextualAction(style: .destructive,
+                                           title: "Remove") { [weak self] (action, view, completionHandler) in
+                self?.handleMoveToTrash(self!.completedInvoices![indexPath.row].invoiceId, true)
+                completionHandler(true)
+            }
+            trash.backgroundColor = #colorLiteral(red: 0.1252301037, green: 0.415497601, blue: 1, alpha: 1)
+            return UISwipeActionsConfiguration(actions: [trash])
         }
-        trash.backgroundColor = .systemRed
-    
-        
-        let configuration = UISwipeActionsConfiguration(actions: [trash])
-               //configuration.performsFirstActionWithFullSwipe = false
-        return configuration
+        return nil
     }
 }
 
 
 extension ScheduleViewController: CIGSchedulerDelegate{
-    func didScheduleGotCancelled(_ cigManager: CIGScheduler, _ data: [InvestmentJSON],_ response: Int) {
-        if(tempInvoiceId != ""){
-            DataModel.shared.opportunities[tempInvoiceId]?.isScheduled = false
-            
-            scheduledInvoices = self.util.setScheduled(data)
+    func didInvesmentByComplete(_ cigManager: CIGScheduler, _ data: [InvestmentJSON],_ isComplete: Bool) {
+        if(isComplete){
+            completedInvoices = util.getRemovedInvestments(data)
+            activityRecentIndicator.stopAnimating()
+            if(completedInvoices?.count == 0){
+                let rect = CGRect(origin: CGPoint(x: 1200,y :0), size: CGSize(width: self.view.bounds.size.width, height: self.view.bounds.size.height))
+                let messageLabel = UILabel(frame: rect)
+                messageLabel.text = "All Investments were removed"
+                messageLabel.numberOfLines = 0;
+                messageLabel.textAlignment = .center;
+                messageLabel.font = UIFont(name: "Helvetica Neue", size: 16)
+                messageLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+                messageLabel.sizeToFit()
+                investedRecentlyTableView.backgroundView = messageLabel
+            }else{
+                investedRecentlyTableView.backgroundView = nil
+            }
+            investedRecentlyTableView.reloadData()
+        }else{
+            scheduledInvoices = data
+            activityIndicator.stopAnimating()
+            if(scheduledInvoices?.count == 0){
+                let rect = CGRect(origin: CGPoint(x: 1200,y :0), size: CGSize(width: self.view.bounds.size.width, height: self.view.bounds.size.height))
+                let messageLabel = UILabel(frame: rect)
+                messageLabel.text = "No invoices were scheduled at this time"
+                messageLabel.numberOfLines = 0;
+                messageLabel.textAlignment = .center;
+                messageLabel.font = UIFont(name: "Helvetica Neue", size: 16)
+                messageLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+                messageLabel.sizeToFit()
+                scheduleTableView.backgroundView = messageLabel
+            }else{
+                scheduleTableView.backgroundView = nil
+            }
             scheduleTableView.reloadData()
         }
     }
     
-    func didCurrentSchedule(_ cigManager: CIGScheduler, _ data: [InvestmentJSON]) {
-        scheduledInvoices = self.util.setScheduled(data)
-        activityIndicator.stopAnimating()
-        if(scheduledInvoices.count == 0){
-            let rect = CGRect(origin: CGPoint(x: 1200,y :0), size: CGSize(width: self.view.bounds.size.width, height: self.view.bounds.size.height))
-            let messageLabel = UILabel(frame: rect)
-            messageLabel.text = "No invoices were scheduled at this time"
-            messageLabel.numberOfLines = 0;
-            messageLabel.textAlignment = .center;
-            messageLabel.font = UIFont(name: "Helvetica Neue", size: 23)
-            messageLabel.sizeToFit()
-            scheduleTableView.backgroundView = messageLabel
+    func didScheduleGotCancelled(_ cigManager: CIGScheduler, _ data: [InvestmentJSON],_ isCompleted: Bool) {
+        if(isCompleted){
+            completedInvoices = util.getRemovedInvestments(data)
+            investedRecentlyTableView.reloadData()
         }else{
-            scheduleTableView.backgroundView = nil
+            if(tempInvoiceId != ""){
+                DataModel.shared.opportunities[tempInvoiceId]?.isScheduled = false
+                scheduledInvoices = data
+                scheduleTableView.reloadData()
+            }
         }
-        refreshControl.endRefreshing()
-        scheduleTableView.reloadData()
     }
     
     func didFailWithError(error: Error) {
         print(error)
-    }
-    
-    @objc func refresh(_ sender: Any) {
-        scheduleTableView.backgroundView = nil
-        scheduleTableView.reloadData()
-        self.cig.getCurrentSchedule(DataModel.shared.token!)
     }
 }

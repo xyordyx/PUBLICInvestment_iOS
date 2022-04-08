@@ -23,12 +23,15 @@ class StatisticsViewController: UIViewController, UITableViewDataSource, UITable
         statsTableView.delegate = self
         cig.delegate = self
         activityIndicator.startAnimating()
-        cig.getExtraData(DataModel.shared.token!)
+        cig.getExtraData(DataModel.shared.smartToken!)
         self.activityIndicator.center = CGPoint(x:UIScreen.main.bounds.size.width / 2, y:UIScreen.main.bounds.size.height / 2)
         self.view.addSubview(activityIndicator)
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (stats.count <= 1){
@@ -52,7 +55,7 @@ class StatisticsViewController: UIViewController, UITableViewDataSource, UITable
         print(error)
     }
     
-    func didUpdateFinancialBalance(_ cigManager: CIGStatistics, _ finTran: FinancialBalance) {
+    func didUpdateFinancialBalance(_ cigManager: CIGStatistics, _ finTran: FinancialData) {
         DataModel.shared.financialStats.totalPENForecast = finTran.solesProfitExpected
         DataModel.shared.financialStats.totalUSDForecast = finTran.dollarProfitExpected
         DataModel.shared.financialStats.totalPENOnRisk = finTran.solesOnRisk

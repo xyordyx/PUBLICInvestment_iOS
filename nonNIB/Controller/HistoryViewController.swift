@@ -31,7 +31,7 @@ class HistoryViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        historyTableView.backgroundView = nil
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -42,9 +42,14 @@ class HistoryViewController: UIViewController {
         historyTableView.dataSource = self
         historyTableView.register(UINib(nibName: "HistoryCell", bundle: nil), forCellReuseIdentifier: "HistoryReusableCell")
         
-        cig.getDebtorSummary(DataModel.shared.token!, (opportunitie?.debtor?._id)!, "pen")
-        cig.getDebtorSummary(DataModel.shared.token!, (opportunitie?.debtor?._id)!, "usd")
-        cig.getDebtorHistory((opportunitie?.debtor?._id)!,DataModel.shared.token!)
+        cig.getDebtorSummary(DataModel.shared.smartToken!, (opportunitie?.debtor?._id)!, "pen")
+        cig.getDebtorSummary(DataModel.shared.smartToken!, (opportunitie?.debtor?._id)!, "usd")
+        cig.getDebtorHistory((opportunitie?.debtor?._id)!,DataModel.shared.smartToken!)
+        activityIndicator.startAnimating()
+        activityView.isHidden = false
+        
+        self.activityIndicator.center = CGPoint(x:UIScreen.main.bounds.size.width / 2, y:UIScreen.main.bounds.size.height / 2)
+        self.view.addSubview(activityIndicator)
         historyTableView.backgroundView = nil
     }
 }
@@ -55,16 +60,6 @@ extension HistoryViewController: UITableViewDataSource{
         if(debtorInvoices != nil){
             count = debtorInvoices!.count
             historyTableView.backgroundView = nil
-        }
-        if(count == 0){
-            let rect = CGRect(origin: CGPoint(x: 1200,y :0), size: CGSize(width: self.view.bounds.size.width, height: self.view.bounds.size.height))
-            let messageLabel = UILabel(frame: rect)
-            messageLabel.text = "No investments were made with this debtor"
-            messageLabel.numberOfLines = 0;
-            messageLabel.textAlignment = .center;
-            messageLabel.font = UIFont(name: "Helvetica Neue", size: 16)
-            messageLabel.sizeToFit()
-            historyTableView.backgroundView = messageLabel
         }
         return count
     }
@@ -107,7 +102,12 @@ extension HistoryViewController: UITableViewDataSource{
 extension HistoryViewController: CIGDebtorHistoryDelegate{
     func didUpdatDebtorHistory(_ cigManager: CIGDebtorHistory, _ debtorHistory: DebtorQuery) {
         self.debtorInvoices = debtorHistory.debtorInvoices
-        self.debtorInvoices = self.debtorInvoices!.sorted(by: { ($0?.status!)! < ($1?.status!)!})
+        if(debtorHistory.debtorInvoices.count != 0){
+            historyTableView.backgroundView = nil
+            self.debtorInvoices = self.debtorInvoices!.sorted(by: { ($0?.status!)! < ($1?.status!)!})
+        }
+        activityIndicator.stopAnimating()
+        activityView.isHidden = true
         historyTableView.reloadData()
 
     }
