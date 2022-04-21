@@ -12,13 +12,14 @@ class Opportunities: Encodable, Decodable{
     var currency: String?
     var debtor: Debtor?
     var evaluation: Evaluation?
-    var isConfirming: Bool?
+    var isConfirming: Bool
     var advanceAmount: Double?
     var toBeCollectedIn: Int?
     var paymentDate: String?
     var tem: Double?
     var tea: Double?
-    var onSale: Bool?
+    var onSale: Bool
+    var onSaleSlot: Int?
     var availableBalanceAmount: Double?
     var createdAt: String?
     

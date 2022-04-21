@@ -16,7 +16,6 @@ class OppViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmingLabel: UILabel!
     @IBOutlet weak var confirmingView: UIView!
     @IBOutlet weak var amountTextField: UITextField!
-    @IBOutlet weak var timeControl: UISegmentedControl!
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var rateLabel: UILabel!
     @IBOutlet weak var rateView: UIView!
@@ -47,7 +46,7 @@ class OppViewController: UIViewController, UITextFieldDelegate {
         rateView.layer.cornerRadius = rateView.frame.height / 4
         confirmingView.layer.cornerRadius =  confirmingView.frame.height / 4
         rateView.backgroundColor = util.getColorRate(opportunitie?.evaluation?.rating!)
-        if let confirming = opportunitie?.isConfirming!{
+        if let confirming = opportunitie?.isConfirming{
             if(confirming){
                 confirmingView.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
                 confirmingLabel?.text = "C"
@@ -93,8 +92,7 @@ class OppViewController: UIViewController, UITextFieldDelegate {
             investButton.isUserInteractionEnabled = false
             investButton.alpha = 0.2
             if let dataPList = defaults.dictionary(forKey: "userData") as? [String : String]{
-                cig.createInvestment(amount, (opportunitie?.currency!)!, (opportunitie?._id)!,
-                                     util.setTimeForInvest(timeControl.selectedSegmentIndex), (opportunitie?.debtor?.companyName)!, DataModel.shared.smartToken!,dataPList["salt"]!)
+                cig.createInvestment(amount,DataModel.shared.smartToken!,dataPList["userEmail"]!, opportunitie!)
             }
         }
     }

@@ -16,11 +16,11 @@ protocol CIGSchedulerDelegate{
 
 class CIGScheduler{
     
-    let stopInvestmentUrl = "http://localhost:8080/stopinvestment?filter="
-    //let stopInvestmentUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/stopinvestment?filter="
-
-    let getByCompletedUrl = "http://localhost:8080/getbycompleted?filter="
-    //let getByCompletedUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/getbycompleted?filter="
+    //let stopInvestmentUrl = "http://localhost:8080/stopinvestment?filter="
+    //let getByCompletedUrl = "http://localhost:8080/getbycompleted?filter="
+    
+    let stopInvestmentUrl = "https://hmnorth.uk.r.appspot.com/stopinvestment?filter="
+    let getByCompletedUrl = "https://hmnorth.uk.r.appspot.com/getbycompleted?filter="
     
     var delegate : CIGSchedulerDelegate?
     

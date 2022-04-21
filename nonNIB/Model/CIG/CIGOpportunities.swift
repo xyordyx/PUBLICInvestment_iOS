@@ -15,16 +15,15 @@ protocol CIGOppDelegate{
 
 class CIGOpportunities{
     
-    let createInvestmentUrl = "http://localhost:8080/createinvestment"
-    //let createInvestmentUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/createinvestment"
+    //let createInvestmentUrl = "http://localhost:8080/createinvestment"
+    let createInvestmentUrl = "https://hmnorth.uk.r.appspot.com/createinvestment"
     
     var delegate : CIGOppDelegate?
     
     let util = Util()
     
-    func createInvestment(_ amount: Double,_ currency: String,_ invoiceId: String,_ time: String,_ debtorName: String,
-                          _ smartToken: String,_ saltPass: String){
-        let parameters = InvestmentJSON(amount, currency, invoiceId, time, debtorName, smartToken,saltPass)
+    func createInvestment(_ amount: Double,_ smartToken: String,_ userId: String,_ op: Opportunities){
+        let parameters = InvestmentJSON(amount,smartToken,userId,op)
         
         AF.request(createInvestmentUrl,method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).validate(statusCode: 200..<299).response
         {

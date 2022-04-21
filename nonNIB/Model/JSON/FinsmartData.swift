@@ -22,27 +22,29 @@ class InvestmentJSON: Encodable, Decodable{
     let amount: Double
     let currency: String
     let invoiceId: String
-    let time: String
     let debtorName: String
     let smartToken: String?
-    let saltPass: String
+    let onSale: Bool?
+    let onSaleSlot: Int
     
     let autoAdjusted: Bool
     let adjustedAmount: Double
-    let status: Bool?
+    let status: Bool
     let message: String?
     let completed: Bool
     let currentState: String
+    let userId: String
     
-    init(_ amount: Double,_ currency: String,_ invoiceId: String,_ time: String,_ debtorName: String,_ smartToken: String
-         ,_ saltPass: String){
+    
+    init(_ amount: Double,_ smartToken: String,_ userId: String,_ opportunitie: Opportunities){
         self.amount = amount
-        self.currency = currency
-        self.invoiceId = invoiceId
-        self.time = time
-        self.debtorName = debtorName
+        self.currency = opportunitie.currency!
+        self.invoiceId = opportunitie._id!
+        self.onSale = opportunitie.onSale
+        self.onSaleSlot = opportunitie.onSaleSlot!
+        self.debtorName = (opportunitie.debtor?.companyName!)!
         self.smartToken = smartToken
-        self.saltPass = saltPass
+        self.userId = userId
         
         self.autoAdjusted = false
         self.adjustedAmount = 0.00

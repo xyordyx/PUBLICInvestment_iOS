@@ -96,7 +96,7 @@ class ScheduleViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.amountLabel?.minimumScaleFactor = 0.5
             cell.supplierLabel.text = scheduledInvoices![indexPath.row].debtorName
             //Still SCHEDULED
-            if(scheduledInvoices![indexPath.row].currentState == "Manual_DB"){
+            if(scheduledInvoices![indexPath.row].currentState == "Scheduled"){
                 cell.handImage.isHidden = false
             }
             if scheduledInvoices![indexPath.row].currency == "pen"{
@@ -104,8 +104,7 @@ class ScheduleViewController: UIViewController, UITableViewDataSource, UITableVi
             }else{
                 cell.amountLabel.text = "$ " + util.doubleFormatter(scheduledInvoices![indexPath.row].amount,0)!
             }
-            
-            cell.timeLabel.text = scheduledInvoices![indexPath.row].time
+            cell.timeLabel.text = scheduledInvoices![indexPath.row].onSaleSlot == 1 ? "12:30" : "5:30"
             return cell
         }else if tableView == investedRecentlyTableView{
             let cell = tableView.dequeueReusableCell(withIdentifier: "InvestCompletedReusableCell", for: indexPath) as! InvestCompletedCell
@@ -113,7 +112,7 @@ class ScheduleViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.amountLabel?.minimumScaleFactor = 0.5
             cell.debtoLabel.text = completedInvoices![indexPath.row].debtorName
             //SUCCESS
-            if(completedInvoices![indexPath.row].status!){
+            if(completedInvoices![indexPath.row].status){
                 //AUTO ADJUSTED
                 if(completedInvoices![indexPath.row].autoAdjusted){
                     cell.messageLabel.isHidden = false

@@ -15,8 +15,8 @@ protocol  CIGInvestmentsDelegate {
 
 class CIGInvestments{
     
-    let currentInvestmentsUrl = "http://localhost:8080/getcurrentinvestments"
-    //let currentInvestmentsUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/getcurrentinvestments"
+    //let currentInvestmentsUrl = "http://localhost:8080/getcurrentinvestments"
+    let currentInvestmentsUrl = "https://hmnorth.uk.r.appspot.com/getcurrentinvestments"
     
     var delegate : CIGInvestmentsDelegate?
     var headers: HTTPHeaders = [

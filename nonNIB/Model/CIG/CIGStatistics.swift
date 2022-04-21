@@ -16,8 +16,8 @@ protocol  CIGStatisticsDelegate {
 
 class CIGStatistics{
     
-    let extraDataUrl = "http://localhost:8080/getextradata"
-    //let extraDataUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/getextradata"
+    //let extraDataUrl = "http://localhost:8080/getextradata"
+    let extraDataUrl = "https://hmnorth.uk.r.appspot.com/getextradata"
     
     var delegate : CIGStatisticsDelegate?
     

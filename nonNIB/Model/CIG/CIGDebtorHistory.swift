@@ -18,8 +18,8 @@ class CIGDebtorHistory{
 
     let debtorSummaryUrl = "https://api.finsmart.pe/api/v1/debtor/history/"
     
-    let debtorHistoryUrl = "http://localhost:8080/getdebtorhistory?filter="
-    //let debtorHistoryUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/getdebtorhistory?filter="
+    //let debtorHistoryUrl = "http://localhost:8080/getdebtorhistory?filter="
+    let debtorHistoryUrl = "https://hmnorth.uk.r.appspot.com/getdebtorhistory?filter="
     
     var delegate : CIGDebtorHistoryDelegate?
     

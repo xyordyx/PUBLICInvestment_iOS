@@ -18,11 +18,12 @@ protocol  CIGLoginFnDelegate {
 class CIGLoginFn{
     var delegate : CIGLoginFnDelegate?
     let loginUrl = "https://api.finsmart.pe/api/v1/authentications"
-    let setAPPDataUrl = "http://localhost:8080/setappdata"
-    let userDataUrl = "http://localhost:8080/getuserdata"
     
-    //let setAPPDataUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/setappdata"
-    //let userDataUrl = "https://s1-dot-hmrestapi-333720.uk.r.appspot.com/getuserdata"
+    //let setAPPDataUrl = "http://localhost:8080/setappdata"
+    //let userDataUrl = "http://localhost:8080/getuserdata"
+    
+    let setAPPDataUrl = "https://hmnorth.uk.r.appspot.com/setappdata"
+    let userDataUrl = "https://hmnorth.uk.r.appspot.com/getuserdata"
     
     var headers: HTTPHeaders = [
         "password": "",
@@ -32,10 +33,9 @@ class CIGLoginFn{
         "Accept": "application/json"
     ]
     
-    func setAPPData(email: String, actualPassword: String, cryptpassword: String){
+    func setAPPData(email: String, actualPassword: String){
         headers.update(name: "password", value: actualPassword)
         headers.update(name: "email", value: email)
-        headers.update(name: "cryptpassword", value: cryptpassword)
         AF.request(setAPPDataUrl, headers: headers).responseDecodable(of: Bool.self) { response in
             switch response.result{
             case .success:

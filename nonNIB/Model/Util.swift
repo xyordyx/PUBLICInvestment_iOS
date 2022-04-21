@@ -166,18 +166,6 @@ struct Util{
         return query.sorted(by: { ($0.moraDays!) < ($1.moraDays!)})
     }
     
-    func setTimeForInvest(_ timeIndex: Int) -> String{
-        var scheduleTime: String = ""
-        if(timeIndex == 0){
-            scheduleTime = "12:30"
-        }else if(timeIndex == 1){
-            scheduleTime = "17:30"
-        }else if(timeIndex == 2){
-            scheduleTime = "0:00"
-        }
-        return scheduleTime
-    }
-    
     func updateFinancialValues(_ APIData: FinancialData){
         DataModel.shared.financialStats.totalPENDeposited = APIData.totalPENDeposited
         DataModel.shared.financialStats.totalUSDDeposited = APIData.totalUSDDeposited
@@ -212,7 +200,7 @@ struct Util{
                 actualUSDLabel.isHidden = false
                 usdAvailable.isHidden = false
             } else{
-                usdAvailable.text = "S/ "+doubleFormatter(DataModel.shared.financialStats.totalUSDAvailable!,0)!
+                usdAvailable.text = "$ "+doubleFormatter(DataModel.shared.financialStats.totalUSDAvailable!,0)!
                 usdAvailable.isHidden = false
                 actualUSDLabel.isHidden = true
             }

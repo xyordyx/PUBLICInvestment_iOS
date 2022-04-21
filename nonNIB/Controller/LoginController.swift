@@ -66,11 +66,9 @@ class LoginController: UIViewController, CIGLoginFnDelegate {
     func didUpdateFNToken(_ cigManager: CIGLoginFn, _ finsmartToken: String,_ credential: Bool) {
         DataModel.shared.smartToken = finsmartToken
         if(!credential){
-            let saltPass = util.randomString(32)
-            dataDict = ["userEmail": email.text!, "password": password.text!, "credentials": "true",
-                        "salt": saltPass]
+            dataDict = ["userEmail": email.text!, "password": password.text!, "credentials": "true"]
             defaults.set(dataDict, forKey: "userData")
-            cig.setAPPData(email: email.text!, actualPassword: password.text!, cryptpassword: saltPass)
+            cig.setAPPData(email: email.text!, actualPassword: password.text!)
         }else{
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "goToHome", sender: self)
