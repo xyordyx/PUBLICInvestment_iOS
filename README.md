@@ -12,7 +12,7 @@
 - Connection to Investment platforms
 
 **CORE ACTIVITIES**
-InvesmentiOS/Assets.xcassets/main.gif
+![alt text](InvesmentiOS/Assets.xcassets/main.gif)
 
 **EXTRA INFORMATION**
-InvesmentiOS/Assets.xcassets/Extra.gif
+![alt text](InvesmentiOS/Assets.xcassets/Extra.gif)
