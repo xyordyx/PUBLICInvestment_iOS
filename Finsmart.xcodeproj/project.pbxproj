@@ -7,19 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		94E21EB42D3E2F958BC5B91F /* libPods-nonNIB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61100188B0F9F5BC2B52B9CB /* libPods-nonNIB.a */; };
 		BD0C114A27475C6A009CDD54 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BD0C114927475C6A009CDD54 /* IQKeyboardManagerSwift */; };
 		BD0D79E327DAA7BD004E0243 /* CIGLoginFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0D79E227DAA7BD004E0243 /* CIGLoginFn.swift */; };
 		BD3253EA277272A7007AF4C8 /* CIGScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3253E9277272A7007AF4C8 /* CIGScheduler.swift */; };
 		BD4B863A27698E7000672400 /* CIGOpportunities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4B863927698E7000672400 /* CIGOpportunities.swift */; };
 		BD4F59B42745882900C3F5A6 /* OppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4F59B32745882900C3F5A6 /* OppViewController.swift */; };
 		BD53020727714938007F4B11 /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD53020627714938007F4B11 /* SwipeCellKit */; };
-		BD65FCB5277A5033007ED14D /* InvestmentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD65FCB3277A5033007ED14D /* InvestmentsCell.swift */; };
-		BD65FCB6277A5033007ED14D /* InvestmentsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD65FCB4277A5033007ED14D /* InvestmentsCell.xib */; };
 		BD757B0D275B1FD5000FD4A9 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD757B0C275B1FD5000FD4A9 /* TabController.swift */; };
 		BD7812112748561400398AC3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7812102748561400398AC3 /* HistoryViewController.swift */; };
-		BD781214274858E900398AC3 /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD781212274858E900398AC3 /* HistoryCell.swift */; };
-		BD781215274858E900398AC3 /* HistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD781213274858E900398AC3 /* HistoryCell.xib */; };
 		BD78121727486AF700398AC3 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD78121627486AF700398AC3 /* ScheduleViewController.swift */; };
 		BD7A6D8B27DC4E0B00AE13BA /* APPData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7A6D8A27DC4E0B00AE13BA /* APPData.swift */; };
 		BD7DFA80277B67E3008FDBE6 /* CIGInvestments.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DFA7F277B67E3008FDBE6 /* CIGInvestments.swift */; };
@@ -27,51 +22,33 @@
 		BD83B2722744498A00F2E07D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83B2712744498A00F2E07D /* Util.swift */; };
 		BD954E702767F46000AB1553 /* DebtorHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD954E6F2767F46000AB1553 /* DebtorHistory.swift */; };
 		BD954E732767F9EF00AB1553 /* CIGDebtorHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD954E722767F9EF00AB1553 /* CIGDebtorHistory.swift */; };
-		BD9C8DD227977C6900605F22 /* InvestCompletedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9C8DD027977C6900605F22 /* InvestCompletedCell.swift */; };
-		BD9C8DD327977C6900605F22 /* InvestCompletedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD9C8DD127977C6900605F22 /* InvestCompletedCell.xib */; };
 		BDACE3B8274347E700067798 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACE3B7274347E700067798 /* AppDelegate.swift */; };
 		BDACE3BA274347E700067798 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACE3B9274347E700067798 /* SceneDelegate.swift */; };
 		BDACE3BC274347E700067798 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACE3BB274347E700067798 /* ViewController.swift */; };
-		BDACE3BF274347E700067798 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDACE3BD274347E700067798 /* Main.storyboard */; };
 		BDACE3C1274347E800067798 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDACE3C0274347E800067798 /* Assets.xcassets */; };
-		BDACE3C4274347E800067798 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDACE3C2274347E800067798 /* LaunchScreen.storyboard */; };
-		BDBDEAA62776131D0018F79C /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBDEAA42776131D0018F79C /* StatisticsCell.swift */; };
-		BDBDEAA72776131D0018F79C /* StatisticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDBDEAA52776131D0018F79C /* StatisticsCell.xib */; };
 		BDBDEAA9277631250018F79C /* CIGStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBDEAA8277631250018F79C /* CIGStatistics.swift */; };
 		BDBFCF7027DFFF4100A505EC /* FinancialData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBFCF6F27DFFF4100A505EC /* FinancialData.swift */; };
 		BDC33C0C27D94BCD002A6CCC /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC33C0B27D94BCD002A6CCC /* LoginController.swift */; };
-		BDCCE0742751E0940073F629 /* OpportunitiesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCCE0722751E0940073F629 /* OpportunitiesCell.swift */; };
-		BDCCE0752751E0940073F629 /* OpportunitiesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDCCE0732751E0940073F629 /* OpportunitiesCell.xib */; };
 		BDE8062B274BE88A0043F256 /* Opportunities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE8062A274BE88A0043F256 /* Opportunities.swift */; };
 		BDE8062D274BE8B00043F256 /* Debtor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE8062C274BE8B00043F256 /* Debtor.swift */; };
 		BDE8062F274BE96F0043F256 /* Evaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE8062E274BE96F0043F256 /* Evaluation.swift */; };
 		BDE80631274BED410043F256 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE80630274BED410043F256 /* Login.swift */; };
 		BDE80633274BEE7B0043F256 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE80632274BEE7B0043F256 /* Invoice.swift */; };
-		BDE80636274C0AF00043F256 /* oppNov21.json in Resources */ = {isa = PBXBuildFile; fileRef = BDE80635274C0AF00043F256 /* oppNov21.json */; };
 		BDE80638274C2A480043F256 /* empty.json in Resources */ = {isa = PBXBuildFile; fileRef = BDE80637274C2A480043F256 /* empty.json */; };
-		BDEB71852749DDCE006DEC4A /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEB71832749DDCE006DEC4A /* ScheduleCell.swift */; };
-		BDEB71862749DDCE006DEC4A /* ScheduleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDEB71842749DDCE006DEC4A /* ScheduleCell.xib */; };
 		BDEB718B2749F170006DEC4A /* CIGInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEB718A2749F170006DEC4A /* CIGInit.swift */; };
-		BDEB718D2749F73E006DEC4A /* FinsmartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEB718C2749F73E006DEC4A /* FinsmartData.swift */; };
+		BDEB718D2749F73E006DEC4A /* PlatformData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEB718C2749F73E006DEC4A /* PlatformData.swift */; };
 		BDEB718F2749F878006DEC4A /* FinsmartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEB718E2749F878006DEC4A /* FinsmartModel.swift */; };
 		BDEB7192274A0299006DEC4A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BDEB7191274A0299006DEC4A /* Alamofire */; };
 		BDF65EFD27F633E7008CB8AE /* InvestmentsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF65EFC27F633E7008CB8AE /* InvestmentsList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		61100188B0F9F5BC2B52B9CB /* libPods-nonNIB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nonNIB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9CFF60964FF9A9ECAD9374A6 /* Pods-nonNIB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nonNIB.debug.xcconfig"; path = "Target Support Files/Pods-nonNIB/Pods-nonNIB.debug.xcconfig"; sourceTree = "<group>"; };
-		A44AD1B4C0AE4AD2E5BD7002 /* Pods-nonNIB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nonNIB.release.xcconfig"; path = "Target Support Files/Pods-nonNIB/Pods-nonNIB.release.xcconfig"; sourceTree = "<group>"; };
 		BD0D79E227DAA7BD004E0243 /* CIGLoginFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIGLoginFn.swift; sourceTree = "<group>"; };
 		BD3253E9277272A7007AF4C8 /* CIGScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIGScheduler.swift; sourceTree = "<group>"; };
 		BD4B863927698E7000672400 /* CIGOpportunities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIGOpportunities.swift; sourceTree = "<group>"; };
 		BD4F59B32745882900C3F5A6 /* OppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OppViewController.swift; sourceTree = "<group>"; };
-		BD65FCB3277A5033007ED14D /* InvestmentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentsCell.swift; sourceTree = "<group>"; };
-		BD65FCB4277A5033007ED14D /* InvestmentsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvestmentsCell.xib; sourceTree = "<group>"; };
 		BD757B0C275B1FD5000FD4A9 /* TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		BD7812102748561400398AC3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
-		BD781212274858E900398AC3 /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
-		BD781213274858E900398AC3 /* HistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryCell.xib; sourceTree = "<group>"; };
 		BD78121627486AF700398AC3 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		BD7A6D8A27DC4E0B00AE13BA /* APPData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APPData.swift; sourceTree = "<group>"; };
 		BD7DFA7F277B67E3008FDBE6 /* CIGInvestments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIGInvestments.swift; sourceTree = "<group>"; };
@@ -79,34 +56,23 @@
 		BD83B2712744498A00F2E07D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		BD954E6F2767F46000AB1553 /* DebtorHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtorHistory.swift; sourceTree = "<group>"; };
 		BD954E722767F9EF00AB1553 /* CIGDebtorHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIGDebtorHistory.swift; sourceTree = "<group>"; };
-		BD9C8DD027977C6900605F22 /* InvestCompletedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestCompletedCell.swift; sourceTree = "<group>"; };
-		BD9C8DD127977C6900605F22 /* InvestCompletedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvestCompletedCell.xib; sourceTree = "<group>"; };
 		BDACE3B4274347E700067798 /* Finsmart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Finsmart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDACE3B7274347E700067798 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BDACE3B9274347E700067798 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BDACE3BB274347E700067798 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BDACE3BE274347E700067798 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BDACE3C0274347E800067798 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BDACE3C3274347E800067798 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BDACE3C5274347E800067798 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BDBDEAA42776131D0018F79C /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
-		BDBDEAA52776131D0018F79C /* StatisticsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticsCell.xib; sourceTree = "<group>"; };
 		BDBDEAA8277631250018F79C /* CIGStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIGStatistics.swift; sourceTree = "<group>"; };
 		BDBFCF6F27DFFF4100A505EC /* FinancialData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialData.swift; sourceTree = "<group>"; };
 		BDC33C0B27D94BCD002A6CCC /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		BDCCE0722751E0940073F629 /* OpportunitiesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpportunitiesCell.swift; sourceTree = "<group>"; };
-		BDCCE0732751E0940073F629 /* OpportunitiesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpportunitiesCell.xib; sourceTree = "<group>"; };
 		BDE8062A274BE88A0043F256 /* Opportunities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opportunities.swift; sourceTree = "<group>"; };
 		BDE8062C274BE8B00043F256 /* Debtor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debtor.swift; sourceTree = "<group>"; };
 		BDE8062E274BE96F0043F256 /* Evaluation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluation.swift; sourceTree = "<group>"; };
 		BDE80630274BED410043F256 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		BDE80632274BEE7B0043F256 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
-		BDE80635274C0AF00043F256 /* oppNov21.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = oppNov21.json; sourceTree = "<group>"; };
 		BDE80637274C2A480043F256 /* empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = empty.json; sourceTree = "<group>"; };
-		BDEB71832749DDCE006DEC4A /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
-		BDEB71842749DDCE006DEC4A /* ScheduleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScheduleCell.xib; sourceTree = "<group>"; };
 		BDEB718A2749F170006DEC4A /* CIGInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIGInit.swift; sourceTree = "<group>"; };
-		BDEB718C2749F73E006DEC4A /* FinsmartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinsmartData.swift; sourceTree = "<group>"; };
+		BDEB718C2749F73E006DEC4A /* PlatformData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformData.swift; sourceTree = "<group>"; };
 		BDEB718E2749F878006DEC4A /* FinsmartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinsmartModel.swift; sourceTree = "<group>"; };
 		BDF65EFC27F633E7008CB8AE /* InvestmentsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,7 +83,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD53020727714938007F4B11 /* SwipeCellKit in Frameworks */,
-				94E21EB42D3E2F958BC5B91F /* libPods-nonNIB.a in Frameworks */,
 				BDEB7192274A0299006DEC4A /* Alamofire in Frameworks */,
 				BD0C114A27475C6A009CDD54 /* IQKeyboardManagerSwift in Frameworks */,
 			);
@@ -126,15 +91,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5651D21FAA0E47E9819B7F14 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9CFF60964FF9A9ECAD9374A6 /* Pods-nonNIB.debug.xcconfig */,
-				A44AD1B4C0AE4AD2E5BD7002 /* Pods-nonNIB.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		BD83B26E2744494D00F2E07D /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,20 +106,6 @@
 		BD83B26F2744495200F2E07D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BDACE3BD274347E700067798 /* Main.storyboard */,
-				BDACE3C2274347E800067798 /* LaunchScreen.storyboard */,
-				BD781212274858E900398AC3 /* HistoryCell.swift */,
-				BD781213274858E900398AC3 /* HistoryCell.xib */,
-				BDEB71832749DDCE006DEC4A /* ScheduleCell.swift */,
-				BDEB71842749DDCE006DEC4A /* ScheduleCell.xib */,
-				BDCCE0722751E0940073F629 /* OpportunitiesCell.swift */,
-				BDCCE0732751E0940073F629 /* OpportunitiesCell.xib */,
-				BDBDEAA42776131D0018F79C /* StatisticsCell.swift */,
-				BDBDEAA52776131D0018F79C /* StatisticsCell.xib */,
-				BD65FCB3277A5033007ED14D /* InvestmentsCell.swift */,
-				BD65FCB4277A5033007ED14D /* InvestmentsCell.xib */,
-				BD9C8DD027977C6900605F22 /* InvestCompletedCell.swift */,
-				BD9C8DD127977C6900605F22 /* InvestCompletedCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -200,10 +142,9 @@
 		BDACE3AB274347E700067798 = {
 			isa = PBXGroup;
 			children = (
-				BDACE3B6274347E700067798 /* nonNIB */,
+				BDACE3B6274347E700067798 /* InvesmentiOS */,
 				BDACE3B5274347E700067798 /* Products */,
 				C6B0DAEDB00B68175EEE4C72 /* Frameworks */,
-				5651D21FAA0E47E9819B7F14 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -215,7 +156,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BDACE3B6274347E700067798 /* nonNIB */ = {
+		BDACE3B6274347E700067798 /* InvesmentiOS */ = {
 			isa = PBXGroup;
 			children = (
 				BD83B26E2744494D00F2E07D /* Model */,
@@ -223,18 +164,17 @@
 				BD83B2702744495A00F2E07D /* Controller */,
 				BDACE3B7274347E700067798 /* AppDelegate.swift */,
 				BDACE3B9274347E700067798 /* SceneDelegate.swift */,
-				BDE80635274C0AF00043F256 /* oppNov21.json */,
 				BDE80637274C2A480043F256 /* empty.json */,
 				BDACE3C0274347E800067798 /* Assets.xcassets */,
 				BDACE3C5274347E800067798 /* Info.plist */,
 			);
-			path = nonNIB;
+			path = InvesmentiOS;
 			sourceTree = "<group>";
 		};
 		BDE80629274BE8740043F256 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
-				BDEB718C2749F73E006DEC4A /* FinsmartData.swift */,
+				BDEB718C2749F73E006DEC4A /* PlatformData.swift */,
 				BDE8062A274BE88A0043F256 /* Opportunities.swift */,
 				BDE8062C274BE8B00043F256 /* Debtor.swift */,
 				BDE8062E274BE96F0043F256 /* Evaluation.swift */,
@@ -249,7 +189,6 @@
 		C6B0DAEDB00B68175EEE4C72 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				61100188B0F9F5BC2B52B9CB /* libPods-nonNIB.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -324,16 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDE80638274C2A480043F256 /* empty.json in Resources */,
-				BDACE3C4274347E800067798 /* LaunchScreen.storyboard in Resources */,
-				BD65FCB6277A5033007ED14D /* InvestmentsCell.xib in Resources */,
 				BDACE3C1274347E800067798 /* Assets.xcassets in Resources */,
-				BDCCE0752751E0940073F629 /* OpportunitiesCell.xib in Resources */,
-				BDE80636274C0AF00043F256 /* oppNov21.json in Resources */,
-				BD781215274858E900398AC3 /* HistoryCell.xib in Resources */,
-				BD9C8DD327977C6900605F22 /* InvestCompletedCell.xib in Resources */,
-				BDACE3BF274347E700067798 /* Main.storyboard in Resources */,
-				BDBDEAA72776131D0018F79C /* StatisticsCell.xib in Resources */,
-				BDEB71862749DDCE006DEC4A /* ScheduleCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +303,6 @@
 				BD7F840027753F37003D4652 /* StatisticsViewController.swift in Sources */,
 				BDACE3BC274347E700067798 /* ViewController.swift in Sources */,
 				BDE80631274BED410043F256 /* Login.swift in Sources */,
-				BD65FCB5277A5033007ED14D /* InvestmentsCell.swift in Sources */,
 				BDACE3B8274347E700067798 /* AppDelegate.swift in Sources */,
 				BD4F59B42745882900C3F5A6 /* OppViewController.swift in Sources */,
 				BDE8062F274BE96F0043F256 /* Evaluation.swift in Sources */,
@@ -383,11 +312,9 @@
 				BD78121727486AF700398AC3 /* ScheduleViewController.swift in Sources */,
 				BDE8062B274BE88A0043F256 /* Opportunities.swift in Sources */,
 				BDC33C0C27D94BCD002A6CCC /* LoginController.swift in Sources */,
-				BDBDEAA62776131D0018F79C /* StatisticsCell.swift in Sources */,
 				BDEB718F2749F878006DEC4A /* FinsmartModel.swift in Sources */,
 				BDE8062D274BE8B00043F256 /* Debtor.swift in Sources */,
 				BD7DFA80277B67E3008FDBE6 /* CIGInvestments.swift in Sources */,
-				BDEB71852749DDCE006DEC4A /* ScheduleCell.swift in Sources */,
 				BD83B2722744498A00F2E07D /* Util.swift in Sources */,
 				BD3253EA277272A7007AF4C8 /* CIGScheduler.swift in Sources */,
 				BD954E732767F9EF00AB1553 /* CIGDebtorHistory.swift in Sources */,
@@ -395,10 +322,7 @@
 				BDACE3BA274347E700067798 /* SceneDelegate.swift in Sources */,
 				BDE80633274BEE7B0043F256 /* Invoice.swift in Sources */,
 				BD7812112748561400398AC3 /* HistoryViewController.swift in Sources */,
-				BD781214274858E900398AC3 /* HistoryCell.swift in Sources */,
-				BD9C8DD227977C6900605F22 /* InvestCompletedCell.swift in Sources */,
-				BDEB718D2749F73E006DEC4A /* FinsmartData.swift in Sources */,
-				BDCCE0742751E0940073F629 /* OpportunitiesCell.swift in Sources */,
+				BDEB718D2749F73E006DEC4A /* PlatformData.swift in Sources */,
 				BDBFCF7027DFFF4100A505EC /* FinancialData.swift in Sources */,
 				BDF65EFD27F633E7008CB8AE /* InvestmentsList.swift in Sources */,
 				BDBDEAA9277631250018F79C /* CIGStatistics.swift in Sources */,
@@ -407,25 +331,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		BDACE3BD274347E700067798 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BDACE3BE274347E700067798 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		BDACE3C2274347E800067798 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BDACE3C3274347E800067798 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		BDACE3C6274347E800067798 /* Debug */ = {
@@ -546,7 +451,6 @@
 		};
 		BDACE3C9274347E800067798 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CFF60964FF9A9ECAD9374A6 /* Pods-nonNIB.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -555,7 +459,7 @@
 				DEVELOPMENT_TEAM = 2NB2FG4P5P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nonNIB/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Finsmart;
+				INFOPLIST_KEY_CFBundleDisplayName = InvestmentiOS;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -569,7 +473,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmp.hmFinsmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmp.InvestmentiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -579,7 +483,6 @@
 		};
 		BDACE3CA274347E800067798 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A44AD1B4C0AE4AD2E5BD7002 /* Pods-nonNIB.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -588,7 +491,7 @@
 				DEVELOPMENT_TEAM = 2NB2FG4P5P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nonNIB/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Finsmart;
+				INFOPLIST_KEY_CFBundleDisplayName = InvestmentiOS;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -602,7 +505,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmp.hmFinsmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmp.InvestmentiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
