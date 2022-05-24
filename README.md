@@ -11,6 +11,10 @@
 - Connection to REST API on GCP APP Engine
 - Connection to Investment platforms
 
+**DESIGN**
+
+<img alt="alt text" src="InvesmentiOS/Assets.xcassets/arch.png" width="1000"/>
+
 **CORE ACTIVITIES**
 
 <img alt="alt text" src="InvesmentiOS/Assets.xcassets/main-4.gif" width="270"/>
@@ -18,7 +22,3 @@
 **EXTRA INFORMATION**
 
 <img alt="alt text" src="InvesmentiOS/Assets.xcassets/Extra.gif" width="270"/>
-
-**DESIGN**
-
-<img alt="alt text" src="InvesmentiOS/Assets.xcassets/arch.png" width="1200"/>
