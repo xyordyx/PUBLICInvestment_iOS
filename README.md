@@ -21,4 +21,4 @@
 
 **DESIGN**
 
-<img alt="alt text" src="InvesmentiOS/Assets.xcassets/arch.png" width="270"/>
+<img alt="alt text" src="InvesmentiOS/Assets.xcassets/arch.png" width="600"/>
