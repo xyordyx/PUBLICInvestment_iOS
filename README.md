@@ -18,3 +18,7 @@
 **EXTRA INFORMATION**
 
 <img alt="alt text" src="InvesmentiOS/Assets.xcassets/Extra.gif" width="270"/>
+
+**DESIGN**
+
+<img alt="alt text" src="InvesmentiOS/Assets.xcassets/arch.png" width="270"/>
