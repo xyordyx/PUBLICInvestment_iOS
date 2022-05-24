@@ -13,7 +13,7 @@
 
 **CORE ACTIVITIES**
 
-<img alt="alt text" src="InvesmentiOS/Assets.xcassets/main.gif" width="270"/>
+<img alt="alt text" src="InvesmentiOS/Assets.xcassets/main-4.gif" width="270"/>
 
 **EXTRA INFORMATION**
 
